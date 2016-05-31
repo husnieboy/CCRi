@@ -149,7 +149,7 @@
 						</td>
 						@endif
 						<td>{{ $counter++ }}</td>
-						<td><a href="{{ 'detail?&receiver_no=' . $po->receiver_no. '&division=' . $po->division }}">{{ $po->division }}</a></td>
+						<td><a href="{{ 'detail?&receiver_no=' . $po->receiver_no. '&division=' . $po->division }}">{{ $po->Division_Name }}</a></td>
 						<td>{{ $po->quantity_ordered1 }}</td>
 						<td>{{ $po->quantity_delivered1 }}</td>
 						<td>{{ $po->fullname }}</td>

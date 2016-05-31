@@ -90,7 +90,7 @@ return array(
 	'text_posted'			=> 'Posted',
 	'text_success_posted'		=> 'Successfully closed picklist!',
 
-	'entry_doc_no'			=> 'Doc No.:',
-	'entry_stock_piler'			=> 'Stock Piler:',
+	'entry_doc_no'			=> 'TL number :',
+	'entry_stock_piler'			=> 'Stock Piler :',
 
 );

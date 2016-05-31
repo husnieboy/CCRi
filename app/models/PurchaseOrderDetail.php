@@ -21,6 +21,7 @@ class PurchaseOrderDetail extends Eloquent {
 public static function getPOInfoDetail($receiver_no = NULL,$division = NULL) {
 		$query = DB::table('purchase_order_details')
 			->join('users', 'purchase_order_details.assigned_to_user_id', '=', 'users.id', 'left')
+			->join('division','purchase_order_details.division','=','division.id','left')
 			->join('dataset','purchase_order_details.po_status','=','dataset.id','left')
 			->join('purchase_order_lists','purchase_order_details.receiver_no','=','purchase_order_lists.receiver_no','left')
 			->join('vendors', 'purchase_order_lists.vendor_id', '=', 'vendors.id', 'left')
@@ -63,7 +64,6 @@ public static function getPOInfoDetail($receiver_no = NULL,$division = NULL) {
 		->where('receiver_no','=',$receiver_no)
 		->where('division','=',$division)
 		->where('sku','=',$sku)
-		->where('slot_no', '=' , $slot_no)
 		->update(['quantity_delivered'=> $quantity]);
 	}
 

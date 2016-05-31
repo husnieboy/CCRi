@@ -36,7 +36,7 @@
 			      		<div>
 				        	<span class="search-po-left-pane">From : </span>
 				        	<span class="search-po-right-pane">
-				        		{{ Form::select('filter_store', array('' => $text_select) + $stores, $filter_store, array('class'=>'select-width', 'id'=>"filter_store")) }}
+				        		{{ Form::select('filter_store_name', array('' => $text_select) + $store_list, $filter_store_name, array('class'=>'select-width', 'id'=>"filter_store_name")) }}
 
 
 
@@ -125,8 +125,8 @@
 					<tr class="font-size-13 tblrow" data-id="{{ $so['so_no'] }}"
 						@if ( array_key_exists('discrepancy',$so) )
 							
-						@endif
-					>
+						@endif>
+
 						@if ( CommonHelper::valueInArray('CanAssignStoreReturn', $permissions) )
 						<td class="align-center">
 							@if($so['data_display'] == 'Open' || $so['data_display'] == 'Assigned')
@@ -135,9 +135,9 @@
 						</td>
 						@endif
 						<td>{{ $counter++ }}</td>
-						<td><a href="{{ $url_detail . '&id='.$so['id']}}">{{ $so['so_no'] }}</a></td>
+						<td><a href="{{ $url_detail . '&id='.$so['id'] }}">{{ $so['so_no'] }}</a></td>
 					<!--	<td>{{ $so['store_code'] }}</td>-->
-						<td>{{ $so['store'] }}</td>
+						<td>{{ $so['store_name'] }}</td>
 <!-- "TO" store--> 		<td>      </td> 
 				<!--		<td>{{$so['so_no']}}</td>-->
 						<td>{{ $so['fullname'] }}</td>
@@ -159,7 +159,7 @@
 							{{ Form::open(array('url'=>'store_return/close', 'id' => 'closeSO_' . $so['so_no'], 'style' => 'margin: 0px;')) }}
 								{{ Form::hidden('so_no', $so['so_no']) }}
 					            {{ Form::hidden('filter_so_no', $filter_so_no) }}
-								{{ Form::hidden('filter_store', $filter_store) }}
+								{{ Form::hidden('filter_store_name', $filter_store_name) }}
 								{{ Form::hidden('filter_created_at', $filter_created_at) }}
 								{{ Form::hidden('filter_status', $filter_status) }}
 							    {{ Form::hidden('page', $page) }}

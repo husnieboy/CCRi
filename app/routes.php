@@ -92,7 +92,14 @@ Route::get('reverse_logistic/detail', [
 	'as' => 'reverse_logistic/detail',
 	'uses' => 'ReverseLogisticController@getSODetails'
 	]);
-
+Route::get('reverse_logistic/export',[
+	'as' => 'reverse_logistic/export',
+	'uses'=> 'ReverseLogisticController@exportCSV'
+	]);
+Route::get('reverse_logistic/export_detail',[
+	'as' => 'reverse_logistic/export_detail',
+	'uses'=> 'ReverseLogisticController@exportDetailsCSV'
+	]);
 
 
 	Route::get('box/list', 'BoxController@index');

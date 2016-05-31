@@ -22,8 +22,9 @@ public static function getPickingListv2($data= array(), $getCount=false)
 	{
 		// $query = Picklist::select(DB::raw('wms_picklist.*, sum(wms_picklist_details.move_to_shipping_area) as sum_moved, sum(wms_picklist_details.assigned_user_id) as sum_assigned, store_code' ))
 
-		$query = Picklist::select('picklist.*','picklist_details.*','dataset.*','picklist_details.updated_at as action_date')
+		$query = Picklist::select('picklist.*','division.*','picklist_details.*','dataset.*','picklist_details.updated_at as action_date')
             ->join('picklist_details', 'picklist_details.move_doc_number', '=', 'picklist.move_doc_number')
+          	->join('division','picklist_details.division','=','division.id', 'LEFT')
 			->join('dataset', 'picklist.pl_status', '=', 'dataset.id');
 
 		if( CommonHelper::hasValue($data['filter_doc_no']) ) $query->where('picklist.move_doc_number', 'LIKE', '%'. $data['filter_doc_no'] . '%');

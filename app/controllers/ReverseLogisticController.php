@@ -16,8 +16,82 @@ protected $layout = "layouts.main";
 	 *
 	 * @return Response
 	 */
+public function exportDetailsCSV() {
+		///Check Permissions
+	
+
+		if (Reverselogistic::find(Input::get('id', NULL))!=NULL) {
+			$filter_so_no = Input::get('filter_so_no', NULL);
+			$filter_store_name = Input::get('filter_store_name', NULL);
+			$filter_created_at = Input::get('filter_created_at', NULL);
+			$filter_status = Input::get('filter_status', NULL);
+
+			//for back
+			$sort_back  = Input::get('sort_back', 'so_no');
+			$order_back = Input::get('order_back', 'ASC');
+			$page_back  = Input::get('page_back', 1);
+
+			// Details
+			$sort_detail  = Input::get('sort', 'sku');
+			$order_detail = Input::get('order', 'ASC');
+			$page_detail  = Input::get('page', 1);
+
+			//Data
+			$so_id = Input::get('id', NULL);
+			$so_no = Input::get('so_no', NULL);
 
 
+			$this->data = Lang::get('store_return');
+			$this->data['so_status_type'] = Dataset::getTypeWithValue("SR_STATUS_TYPE");
+			$this->data['text_empty_results'] = Lang::get('general.text_empty_results');
+
+			$arrParams = array(
+					'id'             	=> $so_id,
+					'sort'              => $sort_detail,
+					'order'             => $order_detail,
+					'page'              => $page_detail,
+					'so_no'             => $so_no,
+					'filter_so_no'      => $filter_so_no,
+					'filter_store'      => $filter_store,
+					'filter_created_at' => $filter_created_at,
+					'filter_status'     => $filter_status,
+					'limit' => NULL
+				);
+
+			$so_info = StoreReturn::getSOInfo($so_id);
+			$results = StoreReturnDetail::getSODetails($so_info->so_no, $arrParams)->toArray();
+			$this->data['results'] = $results;
+
+			$pdf = App::make('dompdf');
+			$pdf->loadView('reverse_logistic.report_detail', $this->data)->setPaper('a4')->setOrientation('landscape');
+			// return $pdf->stream();
+			return $pdf->download('reverse_logistic_detail_' . date('Ymd') . '.pdf');
+		}
+	}
+	public function exportCSV() {
+		// Check Permissions
+	
+		$this->data = Lang::get('reverse_logistic');
+		$this->data['so_status_type'] = Dataset::getTypeWithValue("SR_STATUS_TYPE");
+		$this->data['text_empty_results'] = Lang::get('general.text_empty_results');
+		$arrParams = array(
+							'filter_so_no' 			=> Input::get('filter_so_no', NULL),
+							'filter_store_name' 			=> Input::get('filter_store_name', NULL),
+							'filter_created_at' 	=> Input::get('filter_created_at',NULL),
+							'filter_status' 		=> Input::get('filter_status', NULL),
+							'sort'					=> Input::get('sort', 'so_no'),
+							'order'					=> Input::get('order', 'ASC'),
+							'page'					=> NULL,
+							'limit'					=> NULL
+						);
+
+		$results = StoreReturn::getSOList($arrParams);
+
+		$this->data['results'] = $results;
+
+		$pdf = App::make('dompdf');
+	
+	}
 
 	public function index() {
 		// Check Permissions
@@ -38,11 +112,11 @@ protected $layout = "layouts.main";
 		$this->data['button_search'] = Lang::get('general.button_search');
 		$this->data['button_clear'] = Lang::get('general.button_clear');
 		$this->data['button_export'] = Lang::get('general.button_export');
-		/** URL
-		$this->data['url_assign'] = URL::to('store_return/assign'. $this->setURL());
-		$this->data['url_export'] = URL::to('store_return/export');
-		$this->data['url_detail'] = URL::to('reverse_logistic/detail' . $this->setURL(true));
-**/
+	
+		//$this->data['url_assign'] = URL::to('reverse_logistic/assign'. $this->setURL());
+		//$this->data['url_export'] = URL::to('reverse_logistic/export');
+		//$this->data['url_detail'] = URL::to('reverse_logistic/detail' . $this->setURL(true));
+
 		
 
 		// Message
@@ -57,7 +131,7 @@ protected $layout = "layouts.main";
 		}
 
 		// Search Options
-		$store_list 	  			  = Store::getStoreList1();
+		$store_list 	  			  = Store::getStoreList2();
 
 		if(CommonHelper::arrayHasValue($store_list)) {
 			foreach($store_list as $store){
@@ -106,7 +180,7 @@ protected $layout = "layouts.main";
 							'limit'					=> 0
 						);
 		$details= ReverselogisticDetails::getSODetails($result['so_no'], $arrParams)->toArray();
-			foreach($details as $detail){
+		foreach($details as $detail){
 				if($detail['received_qty'] != $detail['delivered_qty'] ){
 					$result->discrepancy=1;
 					break;	
@@ -158,12 +232,7 @@ protected $layout = "layouts.main";
 	public function getSODetails() {
 		// Check Permissions
 	
-
-
-
 		// URL
-
-
 
 		// Message
 		$this->data['error'] = '';
@@ -277,6 +346,7 @@ protected $layout = "layouts.main";
 
 
 		//data  na pgkuha sa ibng page
+		$this->data['so_no'] = $so_no;
 		$this->data['fullname'] = $fullname;
 		$this->data['created_at'] =$created_at;
 		$this->data['fromStore'] =$fromStore;
@@ -322,7 +392,33 @@ protected $layout = "layouts.main";
 	}
 	public function assignPilerForm() {
 	
-		
+		$filter_so_no = Input::get('filter_so_no', NULL);
+		$filter_store_name = Input::get('filter_store_name', NULL);
+		$filter_created_at = Input::get('filter_created_at', NULL);
+		$filter_status = Input::get('filter_status', NULL);
+
+		$sort = Input::get('sort', 'so_no');
+		$order = Input::get('order', 'ASC');
+		$page = Input::get('page', 1);
+
+		$this->data                    = Lang::get('store_return');
+		$this->data['so_no']           = Input::get('so_no');
+
+		$this->data['filter_so_no'] = $filter_so_no;
+		$this->data['filter_store_name'] = $filter_store_name;
+		$this->data['filter_created_at'] = $filter_created_at;
+		$this->data['filter_status'] = $filter_status;
+
+		$this->data['sort'] = $sort;
+		$this->data['order'] = $order;
+		$this->data['page'] = $page;
+
+		$this->data['stock_piler_list'] = $this->getStockPilers();
+		$this->data['button_assign']    = Lang::get('general.button_assign');
+		$this->data['button_cancel']    = Lang::get('general.button_cancel');
+		$this->data['url_back']         = URL::to('store_return'). $this->setURL();
+		$this->data['params']           = explode(',', Input::get('so_no'));
+		$this->data['info']             = Reverselogistic::getInfoBySoNo($this->data['params']);
 
 	$this->layout->content    = View::make('reverse_logistic.assign_piler_form', $this->data);
 	}

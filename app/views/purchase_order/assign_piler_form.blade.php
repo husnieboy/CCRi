@@ -24,9 +24,6 @@
 				
 				</div> <!-- /controls -->
 			</div> <!-- /control-group -->
-
-
-
 		
 			<div class="control-group">
 				<label class="control-label">{{ $entry_stock_piler }}</label>

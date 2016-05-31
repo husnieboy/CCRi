@@ -168,7 +168,7 @@ class StoreReturnController extends BaseController {
 
 		// Search Filters
 		$filter_so_no = Input::get('filter_so_no', NULL);
-		$filter_store_name = Input::get('filter_store_name', NULL);
+		$filter_store = Input::get('filter_store', NULL);
 		$filter_created_at = Input::get('filter_created_at', NULL);
 		$filter_status = Input::get('filter_status', NULL);
 		$filter_fullname=Input::get('filter_fullname', NULL);
@@ -206,7 +206,7 @@ class StoreReturnController extends BaseController {
 						'page'              => $page_detail,
 						'so_no'             => $so_no,
 						'filter_so_no'      => $filter_so_no,
-						'filter_store_name' => $filter_store_name,
+						'filter_store' => $filter_store,
 						'filter_created_at' => $filter_created_at,
 						'filter_status'     => $filter_status,
 						'filter_fullname'	=> $filter_fullname,
@@ -222,7 +222,7 @@ class StoreReturnController extends BaseController {
 		// Pagination
 		$this->data['arrFilters'] = array(
 									'filter_so_no'      => $filter_so_no,
-									'filter_store_name' => $filter_store_name,
+									'filter_store' => $filter_store,
 									'filter_created_at' => $filter_created_at,
 									'filter_status'     => $filter_status,
 									'sort_back'         => $sort_back,
@@ -244,12 +244,12 @@ class StoreReturnController extends BaseController {
 
 		// Main
 		$this->data['filter_so_no'] = $filter_so_no;
-		$this->data['filter_store_name'] = $filter_store_name;
+		$this->data['filter_store'] = $filter_store;
 		$this->data['filter_created_at'] = $filter_created_at;
 		$this->data['filter_status'] = $filter_status;
 		$this->data['filter_fullname'] =$filter_fullname;
 		$this->data['filter_fromStore']=$filter_fromStore;
-
+		
 
 		//data  na pgkuha sa ibng page
 		$this->data['fullname'] = $fullname;
@@ -268,7 +268,7 @@ class StoreReturnController extends BaseController {
 		$this->data['page_back']    = $page_back;
 
 
-		$url = '?filter_so_no=' . $filter_so_no . '&filter_store_name' . $filter_store_name;
+		$url = '?filter_so_no=' . $filter_so_no . '&filter_store' . $filter_store;
 		$url .= '&filter_created_at=' . $filter_created_at;
 		$url .='&filter_fullname='.$filter_fullname;
 		$url .='&filter_fromStore='.$filter_fromStore;
@@ -317,7 +317,7 @@ class StoreReturnController extends BaseController {
 		$this->data['url_assign'] = URL::to('store_return/assign'. $this->setURL());
 		$this->data['url_export'] = URL::to('store_return/export');
 		$this->data['url_detail'] = URL::to('store_return/detail' . $this->setURL(true));
-		$this->data['stores']            = Store::lists( 'store_name', 'store_code');
+		//$this->data['stores']            = Store::lists( 'store_name', 'store_code');
 		// Message
 
 		$this->data['error'] = '';
@@ -331,7 +331,7 @@ class StoreReturnController extends BaseController {
 		}
 
 		// Search Options
-	/**	$store_list 	  			  = Store::getStoreList1();
+		$store_list 	  			  = Store::getStoreList1();
 
 		if(CommonHelper::arrayHasValue($store_list)) {
 			foreach($store_list as $store_name){
@@ -340,10 +340,13 @@ class StoreReturnController extends BaseController {
 		}
 		else {
 			$this->data['store_list'][] = NULL;
-		}**/
+		}
+
+
+		
 		// Search Filters
 		$filter_so_no = Input::get('filter_so_no', NULL);
-		$filter_store = Input::get('filter_store', NULL);
+		$filter_store_name = Input::get('filter_store_name', NULL);
 		$filter_created_at = Input::get('filter_created_at', NULL);
 		$filter_status = Input::get('filter_status', NULL);
 
@@ -354,7 +357,7 @@ class StoreReturnController extends BaseController {
 		//Data link TL number to other page
 		$arrParams = array(
 						'filter_so_no' 			=> $filter_so_no,
-						'filter_store' 			=> $filter_store,
+						'filter_store_name' 	=> $filter_store_name,
 						'filter_created_at' 	=> $filter_created_at,
 						'filter_status' 		=> $filter_status,
 						'sort'					=> $sort,
@@ -371,7 +374,7 @@ class StoreReturnController extends BaseController {
 		foreach ($results as $result) {
 			$arrParams = array(
 							'filter_so_no' 			=> $filter_so_no,
-							'filter_store' 	=> $filter_store,
+							'filter_store_name' 	=> $filter_store_name,
 							'filter_created_at' 	=> $filter_created_at,
 							'filter_status' 		=> $filter_status,
 							'sort'					=> $sort,
@@ -393,7 +396,7 @@ class StoreReturnController extends BaseController {
 		// Pagination
 		$this->data['arrFilters'] = array(
 									'filter_so_no' 			=> $filter_so_no,
-									'filter_store' 			=> $filter_store,
+									'filter_store_name' 	=> $filter_store_name,
 									'filter_created_at' 	=> $filter_created_at,
 									'filter_status' 		=> $filter_status,
 									'sort'					=> $sort,
@@ -408,8 +411,9 @@ class StoreReturnController extends BaseController {
 		$this->data['counter'] 	= $this->data['store_return']->getFrom();
 		$this->data['so_status_type'] = Dataset::getTypeWithValue("SR_STATUS_TYPE");
 	
+		//automatic data to givin to other page
 		$this->data['filter_so_no'] = $filter_so_no;
-		$this->data['filter_store'] = $filter_store;
+		$this->data['filter_store_name'] = $filter_store_name;
 		$this->data['filter_created_at'] = $filter_created_at;
 		$this->data['filter_status'] = $filter_status;
 
@@ -417,7 +421,9 @@ class StoreReturnController extends BaseController {
 		$this->data['order'] = $order;
 		$this->data['page'] = $page;
 
-		$url = '?filter_so_no=' . $filter_so_no . '&filter_store=' . $filter_store;
+		
+
+		$url = '?filter_so_no=' . $filter_so_no . '&filter_store_name=' . $filter_store_name;
 		$url .= '&filter_created_at=' . $filter_created_at;
 		$url .= '&filter_status=' . $filter_status;
 		$url .= '&page=' . $page;

@@ -90,7 +90,7 @@ protected function getListdivision() {
 		$filter_status      = Input::get('filter_status', NULL);
 		$filter_back_order  = Input::get('filter_back_order', NULL);
 		$filter_brand       = Input::get('filter_brand', NULL);
-		$filter_Division_Name    = Input::get('filter_Division_Name', NULL);
+		$filter_division    = Input::get('filter_division', NULL);
 		$filter_shipment_reference_no = Input::get('filter_shipment_reference_no', NULL);
 
 		$sort               = Input::get('sort', 'po_no');
@@ -99,6 +99,7 @@ protected function getListdivision() {
 
 		$receiver_no = Input::get('receiver_no', NULL);
 		$this->data['po_info'] = PurchaseOrder::getPOInfodiv($receiver_no);
+
 		//Data
 		$arrParams = array(
 						'filter_po_no'       => $filter_po_no,
@@ -108,7 +109,7 @@ protected function getListdivision() {
 						'filter_back_order'  => $filter_back_order,
 						'filter_status'      => $filter_status,
 						'filter_brand'       => $filter_brand,
-						'filter_Division_Name'	 => $filter_Division_Name,
+						'filter_division'	 => $filter_division,
 						'filter_shipment_reference_no' => $filter_shipment_reference_no,
 						'receiver_no'		 => $receiver_no,
 						'sort'               => $sort,
@@ -134,26 +135,26 @@ protected function getListdivision() {
 									'filter_back_order'  => $filter_back_order,
 									'filter_status'      => $filter_status,
 									'filter_brand'       => $filter_brand,
-									'filter_Division_Name'	 => $filter_Division_Name,
+									'filter_division'	 => $filter_division,
 									'sort'               => $sort,
 									'order'              => $order
 								);
 
-		$this->data['purchase_orders']       = Paginator::make($results, $results_total, 30);
-		$this->data['purchase_orders_count'] = $results_total;
-		$this->data['counter']               = $this->data['purchase_orders']->getFrom();
-		$this->data['filter_po_no']          = $filter_po_no;
-		$this->data['filter_receiver_no']    = $filter_receiver_no;
+		$this->data['purchase_orders']       	= Paginator::make($results, $results_total, 30);
+		$this->data['purchase_orders_count'] 	= $results_total;
+		$this->data['counter']               	= $this->data['purchase_orders']->getFrom();
+		$this->data['filter_po_no']          	= $filter_po_no;
+		$this->data['filter_receiver_no']    	= $filter_receiver_no;
 		$this->data['filter_shipment_reference_no']    = $filter_shipment_reference_no;
-		$this->data['filter_entry_date']     = $filter_entry_date;
-		$this->data['filter_stock_piler']    = $filter_stock_piler;
-		$this->data['filter_status']         = $filter_status;
-		$this->data['filter_back_order']     = $filter_back_order;
-		$this->data['filter_brand']          = $filter_brand;
-		$this->data['filter_Division_Name']  = $filter_Division_Name;
-		$this->data['sort']                  = $sort;
-		$this->data['order']                 = $order;
-		$this->data['page']                  = $page;
+		$this->data['filter_entry_date']     	= $filter_entry_date;
+		$this->data['filter_stock_piler']    	= $filter_stock_piler;
+		$this->data['filter_status']         	= $filter_status;
+		$this->data['filter_back_order']     	= $filter_back_order;
+		$this->data['filter_brand']          	= $filter_brand;
+		$this->data['filter_division']  		= $filter_division;
+		$this->data['sort']                  	= $sort;
+		$this->data['order']                 	= $order;
+		$this->data['page']                  	= $page;
 
 		$url                                 = '?filter_po_no=' . $filter_po_no;
 		$url                                 .= '&filter_entry_date=' . $filter_entry_date;
@@ -186,7 +187,7 @@ protected function getListdivision() {
 		$receiver_no    = Input::get('receiver_no', NULL);
 		$division       = Input::get('division', NULL);
 		$sku   		    = Input::get('sku', NULL);
-		$quantity       = Input::get('quantity', NULL);
+		$quantity       = Input::get('quantity_delivered', NULL);
 
 		PurchaseOrderDetail::updateqty($receiver_no,$division,$sku,$quantity);
 		return Redirect::to('purchase_order/detail?&receiver_no='.$receiver_no.'&division='.$division)->with('message','Updating Successfully');

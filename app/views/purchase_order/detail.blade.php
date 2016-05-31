@@ -89,7 +89,7 @@
 				
 		       <div>
 		        	<span class="left-pane">Division :</span>
-		        	<span class="right-pane">{{ Form::text('division', $po_info->division, array('readonly' => 'readonly')) }}</span>
+		        	<span class="right-pane">{{ Form::text('Division_Name', $po_info->Division_Name, array('readonly' => 'readonly')) }}</span>
 		        </div>
 	      </div>
 	   </div>

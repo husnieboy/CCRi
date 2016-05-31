@@ -15,7 +15,7 @@ class StoreReturn extends Eloquent {
 			->join('dataset', 'so_status', '=', 'dataset.id');
 
 		if( CommonHelper::hasValue($data['filter_so_no']) ) $query->where('so_no', 'LIKE', '%'.$data['filter_so_no'].'%');
-		if( CommonHelper::hasValue($data['filter_store']) ) $query->where('stores.store_name', 'LIKE', $data['filter_store']);
+		if( CommonHelper::hasValue($data['filter_store_name']) ) $query->where('stores.store_name', 'LIKE', $data['filter_store_name']);
 		if( CommonHelper::hasValue($data['filter_created_at']) ) $query->where('store_return.created_at', 'LIKE', '%'.$data['filter_created_at'].'%');
 		if( CommonHelper::hasValue($data['filter_status']) ) $query->where('data_value', 'LIKE', '%'.$data['filter_status'].'%');
 
@@ -50,7 +50,7 @@ class StoreReturn extends Eloquent {
 			->join('dataset', 'so_status', '=', 'dataset.id');
 
 		if( CommonHelper::hasValue($data['filter_so_no']) ) $query->where('so_no', 'LIKE', '%'.$data['filter_so_no'].'%');
-		if( CommonHelper::hasValue($data['filter_store']) ) $query->where('stores.store_name', 'LIKE', $data['filter_store']);
+		if( CommonHelper::hasValue($data['filter_store_name']) ) $query->where('stores.store_name', 'LIKE', $data['filter_store_name']);
 		if( CommonHelper::hasValue($data['filter_created_at']) ) $query->where('store_return.created_at', 'LIKE', '%'.$data['filter_created_at'].'%');
 		if( CommonHelper::hasValue($data['filter_status']) ) $query->where('data_value', 'LIKE', '%'.$data['filter_status'].'%');
 

@@ -23,7 +23,7 @@
 
 		        <div>
 		        	<span class="left-pane"> From :</span>
-		        	<span class="left-pane">{{ Form::text('fromStore', $fromStore, array('readonly' => 'readonly')) }}	
+		        	<span class="left-pane">{{ Form::text('filter_store', $filter_store, array('readonly' => 'readonly')) }}	
 		        	 </input></span>
 		        </div>
 	      	</div>
@@ -31,7 +31,7 @@
 	      	<div class="span4">
 	      		<div>
 		        	<span class="left-pane">Stockpiler :</span>
-		        	<span class="left-pane">{{ Form::text('fullname', $fullname, array('readonly' => 'readonly')) }}</span>
+		        	<span class="left-pane">{{ Form::text('filter_fullname', $filter_fullname, array('readonly' => 'readonly')) }}</span>
 		        </div>
 		        <div>
 		        	<span class="left-pane"> To :</span>

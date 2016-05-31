@@ -18,7 +18,7 @@ class StoreReturnDetail extends Eloquent {
 					->where('store_return_detail.so_no', '=', $so_no);
 
 		if( CommonHelper::hasValue($data['filter_so_no']) ) $query->where('store_return.so_no', 'LIKE', '%'.$data['filter_so_no'].'%');
-		if( CommonHelper::hasValue($data['filter_store']) ) $query->where('store', 'LIKE', '%'.$data['filter_store'].'%');
+		//if( CommonHelper::hasValue($data['filter_store_name']) ) $query->where('stores.store_name', 'LIKE', '%'.$data['filter_store_name'].'%');
 		if( CommonHelper::hasValue($data['filter_created_at']) ) $query->where('store_return.created_at', 'LIKE', '%'.$data['filter_created_at'].'%');
 		if( CommonHelper::hasValue($data['filter_status']) ) {
 			$arrParams = array('data_code' => 'SR_STATUS_TYPE', 'data_value'=> $data['filter_status']);

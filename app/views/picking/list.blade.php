@@ -179,7 +179,7 @@
 							</td>
 
 							<td>{{ date("M d, Y", strtotime($value['created_at'])) }}</td>
-							<td>{{ $value['division'] }}</td>
+							<td>{{ $value['Division_Name'] }}</td>
 							<td>{{ Store::getStoreName($value['store_code']) }}</td>
 							<!--<td>{{ Store::getStoreName($value['store_code']) }}</td>-->
 							<td>{{ $value['fullname'] }}</td>

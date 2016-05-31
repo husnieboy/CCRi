@@ -14,7 +14,7 @@
 	<div class="controls">
 		<div class="accordion" id="accordion2">
           <div class="accordion-group" style="background-color: #FFFFFF;">
-
+ {{ Form::open(array('url'=>'reverse_logistic/list', 'class'=>'form-signin', 'id'=>'form-store-order', 'role'=>'form', 'method' => 'get')) }}
             <div id="collapseOne" class="accordion-body collapse in" style="padding-top: 20px;">
 	                <div class="span4">
 			        	<div>
@@ -156,6 +156,89 @@
 			</table>
 		</div>
 	</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.date').datepicker({
+      format: 'yyyy-mm-dd'
+    });
 
+
+    // Close SO
+    $('.closeSO').click(function() {
+    	var answer = confirm('{{ $text_warning }}');
+
+		if (answer) {
+			var so_no = $(this).data('id');
+	    	$('#closeSO_' + so_no).submit();
+		}
+    });
+
+    // Submit Form
+    $('#submitForm').click(function() {
+    	$('#form-store-order').submit();
+    });
+
+    $('#form-store-order input').keydown(function(e) {
+		if (e.keyCode == 13) {
+			$('#form-store_return').submit();
+		}
+	});
+
+    // Clear Form
+    $('#clearForm').click(function() {
+    	$('#filter_so_no').val('');
+		$('#filter_created_at').val('');
+
+		$('select').val('');
+		$('#form-store-order').submit();
+    });
+
+	// Export List
+
+
+    // Select
+    $('.tblrow').click(function() {
+    	var rowid = $(this).data('id');
+
+    	if ($('#selected-' + rowid).length>0) {
+	    	if ($('#selected-' + rowid).is(':checked')) {
+	    		$('#selected-' + rowid).prop('checked', false);
+	    		$(this).children('td').removeClass('tblrow-active');
+	    	} else {
+	    		$('#selected-' + rowid).prop('checked', true);
+	    		$(this).children('td').addClass('tblrow-active');
+	    	}
+    	} else {
+    		$(this).children('td').removeClass('tblrow-active');
+    	}
+    });
+
+    $('.item-selected').click(function() {
+    	var rowid = $(this).data('id');
+
+    	if ($(this).is(':checked')) {
+    		$(this).prop('checked', false);
+    		$(this).children('td').removeClass('tblrow-active');
+    	} else {
+    		$(this).prop('checked', true);
+    		$(this).children('td').addClass('tblrow-active');
+    	}
+    });
+
+    $('#main-selected').click(function() {
+    	if ($('#main-selected').is(':checked')) {
+    		$('input[name*=\'selected\']').prop('checked', true);
+    		$('.table tbody tr > td').addClass('tblrow-active');
+    	} else {
+    		$('input[name*=\'selected\']').prop('checked', false);
+    		$('.table tbody tr > td').removeClass('tblrow-active');
+    	}
+   	});
+
+   	// Assign PO
+    
+   
+});
+</script>
 	
   

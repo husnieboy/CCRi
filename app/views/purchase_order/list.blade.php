@@ -131,7 +131,7 @@
 						-->
 						@if ( CommonHelper::valueInArray('CanExportPurchaseOrders', $permissions) )
 					<!--<a href= {{ $url_export_backorder }} class="btn btn-info btn-darkblue">{{ $button_generate_backorder }}</a> -->
-						<a class="btn btn-info btn-darkblue" href={{URL::to('purchase_order/sync_to_mobile')}}>Sync To Mobile</a>
+						<a class="btn btn-info btn-darkblue" href={{URL::to('purchase_order/sync_to_mobile')}}>Sync To Mobile </a>
 						@endif 
 					</div>
 				</th>

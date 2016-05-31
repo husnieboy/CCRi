@@ -34,10 +34,10 @@ class ApiPurchaseOrder extends BaseController {
 		}
 
     }
-    public function RPoListDetailUpdate($receiver_no,$division,$quantity,$sku,$slot_no)
+    public function RPoListDetailUpdate($receiver_no,$division,$quantity,$sku,$quantity_delivered)
     {
     	try {
-		$polistdetails = PurchaseOrderDetail::updateqty($receiver_no,$division,$quantity,$sku,$slot_no);
+		$polistdetails = PurchaseOrderDetail::updateqty($receiver_no,$division,$quantity,$sku,$quantity_delivered);
 
 			return Response::json(array('result' => $polistdetails),200);
 			//return $polist;

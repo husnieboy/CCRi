@@ -10,13 +10,13 @@
 	      	<div class="span4">
 	      		<div>
 		        	<span class="left-pane">TL Number :</span>
-		        	<span class="left-pane"><input type="textfield" disabled="" value =""> </input></span>
+		        	<span class="left-pane">{{ Form::text('so_no', $so_no, array('readonly' => 'readonly')) }}	</span>
 		        </div>
 
 		        <div>
 		        	<span class="left-pane"> From :</span>
 		        	<span class="left-pane">{{ Form::text('fromStore', $fromStore, array('readonly' => 'readonly')) }}	
-		        	 </input></span>
+		        	 </span>
 		        </div>
 	      	</div>
 
@@ -82,13 +82,16 @@
 						<th> VARIANCE Quantity </th>
 					</tr>
 				</thead>
+
+				
 				@if( !CommonHelper::arrayHasValue($store_return) )
 				<tr class="font-size-13">
-					<td colspan="12" class="align-center">{{ $text_empty_results }}</td>
+					<td colspan="12" class="align-center" style="background-color:#f6f6f6">{{ $text_empty_results }}</td>
 				</tr>
 				@else
+
 					@foreach( $store_return as $so )
-					<tr class="font-size-13">
+					<tr class="font-size-13" style="background-color:#F29F9F">
 								
 						<td>{{ $counter++ }}</td>
 				

@@ -110,7 +110,7 @@ public static function GetApiRPoList($piler_id) {
 		$result = $query->get(array(
 									'purchase_order_lists.*',
 									'vendors.vendor_name',
-									'purchase_order_details.Division_Name',
+									'purchase_order_details.*',
 									'dataset.data_display'
 									// 'users.firstname',
 									// 'users.lastname'
@@ -134,13 +134,15 @@ public static function GetApiRPoList($piler_id) {
 	{
 		$query = DB::table('purchase_order_lists')
 					
-			->select('*',DB::raw('sum(quantity_ordered) as quantity_ordered1'),DB::raw('sum(quantity_delivered) as quantity_delivered1'))
+			->select('*', 
+				DB::raw('sum(quantity_ordered) as quantity_ordered1'),DB::raw('sum(quantity_delivered) as quantity_delivered1'))
 		 	 	// ->join('users', 'purchase_order_lists.assigned_to_user_id', 'IN', 'users.id', 'LEFT')
-			//->join('division','purchase_order_details.division','=', 'division.id','LEFT')
+		
 			->join('purchase_order_details', 'purchase_order_lists.receiver_no', '=', 'purchase_order_details.receiver_no', 'LEFT')
 			->join('product_lists', 'purchase_order_details.sku', '=', 'product_lists.upc', 'LEFT')
 			->join('dataset', 'purchase_order_details.po_status', '=', 'dataset.id', 'LEFT')
 			->join('vendors', 'purchase_order_lists.vendor_id', '=', 'vendors.id', 'LEFT')
+			->join('division', 'purchase_order_details.division', '=', 'division.id', 'LEFT')
 			->where('purchase_order_details.receiver_no','=', $data['receiver_no'])
 			->groupBy('purchase_order_details.division');
 
@@ -153,7 +155,7 @@ public static function GetApiRPoList($piler_id) {
 		if( CommonHelper::hasValue($data['filter_status']) && $data['filter_status'] !== 'default' ) $query->where('purchase_order_lists.po_status', '=', $data['filter_status']);
 		if( CommonHelper::hasValue($data['filter_back_order']) ) $query->where('back_order', '=', $data['filter_back_order']);
 		if( CommonHelper::hasValue($data['filter_brand']) ) $query->where('dept_code', '=', $data['filter_brand']);
-		if( CommonHelper::hasValue($data['filter_Division_Name']) ) $query->where('division', '=', $data['filter_division']);
+		if( CommonHelper::hasValue($data['filter_division']) ) $query->where('division', '=', $data['filter_division']);
 		if( CommonHelper::hasValue($data['filter_shipment_reference_no']) ) $query->where('shipment_reference_no', '=', $data['filter_shipment_reference_no']);
 
 		if( CommonHelper::hasValue($data['sort']) && CommonHelper::hasValue($data['order']))  {
@@ -184,7 +186,7 @@ public static function GetApiRPoList($piler_id) {
 		$result = $query->get(array(
 									'purchase_order_lists.*',
 									'vendors.vendor_name',
-									'purchase_order_details.Division_Name',
+									'purchase_order_details.*',
 									'dataset.data_display'
 									// 'users.firstname',
 									// 'users.lastname'
@@ -232,10 +234,9 @@ public static function GetApiRPoList($piler_id) {
 
 	public static function synctomobile()
 	{
-		$query=DB::table('purchase_order_lists')
-            ->where('po_status', 1)
-            ->orwhere('po_status', 2)
-            ->update(['latest_mobile_sync_date' => date('Y-m-d H:i:s')]);
+		$query=DB::table('purchase_order_details')
+            ->where('po_status','=', '2')
+            ->update(['po_status'=>'3']);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

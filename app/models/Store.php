@@ -67,6 +67,11 @@ class Store extends Eloquent {
 			
 		return $storeList;
 	}	
+		public static function getStoreList2(){
+		$storeList = Store::lists('store_name');
+			
+		return $storeList;
+	}
 
 	public static function getPickStoreName($storeCode)
 	{
